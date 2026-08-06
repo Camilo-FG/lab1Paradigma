@@ -73,7 +73,7 @@ namespace LibraryService.WebAPI
             // Add support for Dependency Injection for internal services (BooksService and LibrariesService)
             services.AddTransient<ILibrariesService,  LibrariesService>();
             services.AddTransient<IBooksService,  BooksService>();
-
+            Console.WriteLine(Configuration.GetConnectionString("DefaultConnection"));
             services.AddDbContextPool<LibraryContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), npgsqlOptions =>
                 {
