@@ -54,8 +54,13 @@ namespace LibraryService.WebAPI.Services
 
         public async Task<bool> Delete(Library library)
         {
-            // Complete the implementation
-            throw new NotImplementedException();
+            var libraryForChanges = await _libraryContext.Libraries.FirstOrDefaultAsync(x => x.Id == library.Id);
+            if (libraryForChanges == null)
+                return false;
+
+            _libraryContext.Libraries.Remove(libraryForChanges);
+            await _libraryContext.SaveChangesAsync();
+            return true;
         }
     }
 
