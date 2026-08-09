@@ -1,7 +1,13 @@
-using HackerRank1.Entities;
-using HackerRank1.Services;
-using LibraryService.WebAPI.Data;
-using LibraryService.WebAPI.Services;
+using LibraryService.WebAPI.Features.Auth.Login;
+using LibraryService.WebAPI.Features.Books.Create;
+using LibraryService.WebAPI.Features.Books.GetByLibrary;
+using LibraryService.WebAPI.Features.Libraries.Create;
+using LibraryService.WebAPI.Features.Libraries.Delete;
+using LibraryService.WebAPI.Features.Libraries.GetAll;
+using LibraryService.WebAPI.Features.Libraries.GetById;
+using LibraryService.WebAPI.Features.Libraries.Update;
+using LibraryService.WebAPI.Infrastructure.Auth;
+using LibraryService.WebAPI.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
@@ -38,7 +44,16 @@ namespace LibraryService.WebAPI
             // 2. Registro de DI
 
             services.AddSingleton(jwtSettings);
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+            // Vertical Slices: register each use case handler (scoped)
+            services.AddScoped<LoginHandler>();
+            services.AddScoped<GetAllLibrariesHandler>();
+            services.AddScoped<GetLibraryHandler>();
+            services.AddScoped<CreateLibraryHandler>();
+            services.AddScoped<UpdateLibraryHandler>();
+            services.AddScoped<DeleteLibraryHandler>();
+            services.AddScoped<GetBooksHandler>();
+            services.AddScoped<CreateBookHandler>();
 
             // 3. Configurar Authenticacion
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -69,10 +84,6 @@ namespace LibraryService.WebAPI
                 .AllowAnyHeader()
                 .AllowAnyMethod()));
 
-
-            // Add support for Dependency Injection for internal services (BooksService and LibrariesService)
-            services.AddTransient<ILibrariesService,  LibrariesService>();
-            services.AddTransient<IBooksService,  BooksService>();
 
             services.AddDbContextPool<LibraryContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), npgsqlOptions =>

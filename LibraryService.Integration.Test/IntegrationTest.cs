@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using LibraryService.WebAPI;
-using LibraryService.WebAPI.Data;
-using LibraryService.WebAPI.DTO;
+using LibraryService.WebAPI.Infrastructure.Data;
+using LibraryService.WebAPI.Shared.Entities;
+using LibraryService.WebAPI.Features.Books;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -35,14 +36,13 @@ namespace LibraryService.Tests
                         .EnableSensitiveDataLogging()
                         .Options);
             Client = _factory.WithWebHostBuilder(builder =>
-                builder.UseStartup<Startup>()
-                .ConfigureServices(services =>
+                builder.ConfigureServices(services =>
                 {
                     services.RemoveAll(typeof(LibraryContext));
                     services.AddSingleton(context);
 
                     context.Database.OpenConnection();
-                    context.Database.EnsureCreated();
+                    context.Database.Migrate();
 
                     context.SaveChanges();
 
