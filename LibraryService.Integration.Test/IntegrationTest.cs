@@ -1,13 +1,13 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
-using LibraryService.WebAPI;
-using LibraryService.WebAPI.Data;
-using LibraryService.WebAPI.DTO;
+using LibraryService.Application.DTO;
+using LibraryService.Domain.Entities;
+using LibraryService.Infrastructure.Data;
+using LibraryService.Presentation;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
