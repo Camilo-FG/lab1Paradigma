@@ -19,8 +19,7 @@ public class BooksService : IBooksService
 
     public async Task<Book> Add(Book book)
     {
-        // Complete the implementation
-        throw new NotImplementedException();
+        return await _bookRepository.Add(book);
     }
 
     public async Task<Book> Update(Book book)

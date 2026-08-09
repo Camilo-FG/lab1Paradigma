@@ -34,8 +34,7 @@ public class LibrariesService : ILibrariesService
 
     public async Task<bool> Delete(Library library)
     {
-        // Complete the implementation
-        throw new NotImplementedException();
+        return await _libraryRepository.Delete(library);
     }
 }
 

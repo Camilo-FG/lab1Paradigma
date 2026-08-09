@@ -35,14 +35,13 @@ namespace LibraryService.Tests
                         .EnableSensitiveDataLogging()
                         .Options);
             Client = _factory.WithWebHostBuilder(builder =>
-                builder.UseStartup<Startup>()
-                .ConfigureServices(services =>
+                builder.ConfigureServices(services =>
                 {
                     services.RemoveAll(typeof(LibraryContext));
                     services.AddSingleton(context);
 
                     context.Database.OpenConnection();
-                    context.Database.EnsureCreated();
+                    context.Database.Migrate();
 
                     context.SaveChanges();
 
