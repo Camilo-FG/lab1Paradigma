@@ -11,7 +11,7 @@ public class BookForm
     public string Name { get; set; }
 
     [JsonProperty("category")]
-    public string Category { get; set; }
+    public string? Category { get; set; }
 
     [JsonProperty("libraryId")]
     public int LibraryId { get; set; }
